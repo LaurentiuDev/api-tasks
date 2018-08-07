@@ -88,6 +88,7 @@ class CommentController extends Controller {
             return $this->returnBadRequest();
         }
 
+
         $comment = Comment::find($id);
         if($comment->body === $request->input('body'))
         {

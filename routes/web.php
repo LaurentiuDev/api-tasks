@@ -28,11 +28,17 @@ $router->options(
 /** Routes that doesn't require auth */
 $router->group(['namespace' => API_VERSION, 'prefix' => API_VERSION, 'middleware' => ['cors']], function () use ($router) {
     $router->post('/login', ['uses' => 'UserController@login']);
-    $router->post('/changeInfo',['uses' => 'UserController@chengeInfo']);
     $router->post('/logout',['uses' => 'UserController@logout']);
     $router->post('/register', ['uses' => 'RegistrationController@register']);
     $router->post('/linkResetPassword',['uses' =>'ResetPasswordController@sentEmail']);
     $router->post('/resetPassword/{link}',['uses' =>'ResetPasswordController@reset']);
+
+});
+
+/** Routes with auth */
+$router->group(['namespace' => API_VERSION, 'prefix' => API_VERSION, 'middleware' => 'cors|jwt'], function () use ($router) {
+    $router->post('/changeInfo',['uses' => 'UserController@chengeInfo']);
+    $router->put('/task/{id}/addComment' ,['uses' => 'CommentController@addComment']);
     $router->put('/confirmAccount/{id}',['uses' => 'AdminController@activateAccount']);
     $router->post('/addRole',['uses' => 'AdminController@addRole']);
     $router->put('/editRole/{id}',['uses' => 'AdminController@editRole']);
@@ -44,14 +50,6 @@ $router->group(['namespace' => API_VERSION, 'prefix' => API_VERSION, 'middleware
     $router->post('/addTask',['uses' => 'TasksController@addTask']);
     $router->put('/editTask/{id}',['uses' => 'TasksController@editTask']);
     $router->delete('/delete/{id}',['uses' => 'TasksController@delete']);
-    $router->put('/task/{id}/addComment' ,['uses' => 'CommentController@addComment']);
     $router->put('/editComment/{id}',['uses' => 'CommentController@editComment']);
     $router->delete('/deleteComment/{id}',['uses' => 'CommentController@deleteComment']);
-
-
-});
-
-/** Routes with auth */
-$router->group(['namespace' => API_VERSION, 'prefix' => API_VERSION, 'middleware' => 'cors|jwt'], function () use ($router) {
-
 });

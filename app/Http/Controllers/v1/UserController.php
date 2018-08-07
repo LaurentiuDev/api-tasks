@@ -66,7 +66,6 @@ class UserController extends Controller
             return $this->returnNotFound('Your account is not active . Please wait until it is activated by an admin');
         }
         $token = $jwtToken->createToken($user);
-
         $data = [
             'user' => $user,
             'jwt'  => $token->token()
